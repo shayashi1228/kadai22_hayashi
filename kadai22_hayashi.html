@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>じゃんけん</title>
+</head>
+<body>
+    <h3>じゃんけん</h3>
+    <hr>
+<table border="0" align="center" cellpadding="5" cellspacing="5">
+    <tr bgcolor="#000000">
+        <th width="200" height="200"><div id="ahand"></div></th>
+        <th>VS</th>
+        <th width="200" height="200"><div id="bhand"></div></th>
+    </tr>
+    <tr bgcolor="#000000">
+        <th>相手</th>
+        <td>&nbsp;</td>
+        <th>自分</th>
+    </tr>
+    <tr bgcolor="#000000">
+        <th colspan="3">&nbsp;</th>
+    </tr>
+    <tr bgcolor="#000000">
+        <th colspan="3">
+        <form name="janken">
+            <table border="0" align="center">
+            <tr>
+            <td colspan="3" align="center"><font color="#FFFFFF"><div id="message"></div></font></td>
+            </tr>
+            <tr>
+            <th><input type="button" onClick="getbhand(0)" value="グー"></th>
+            <th><input  type="button" onClick="getbhand(1)" value="チョキ"></th>
+            <th><input  type="button" onClick="getbhand(2)" value="パー"></th>
+            </tr>
+            <tr>
+            <th colspan="3"><input type="button" onClick="handreset()" value="リセット"></th>
+            </tr>
+            </table>
+        </form>
+        </th>
+    </tr>
+</table>
+
+<script>
+hand = new Array("rock.png","scissors.png","paper.png");
+msg = new Array("なにをだそうかな？","あなたの勝ち！！","あなたの負け","あいこだ、もう一回！");
+
+timer = 0;
+count = 0;
+
+handreset();
+
+function getbhand(btn) {
+    clearTimeout(timer);
+    r = Math.floor(Math.random() * 3);
+    document.getElementById("ahand").innerHTML = "<img src='" + hand[r] + "'>";
+    document.getElementById("bhand").innerHTML = "<img src='" + hand[btn] + "'>";
+    document.janken.elements[0].disabled = true;
+    document.janken.elements[1].disabled = true;
+    document.janken.elements[2].disabled = true;
+    document.janken.elements[3].disabled = false;
+    var num = 3;
+//グー
+    if (btn == 0 && r == 1) num = 1;
+    if (btn == 0 && r == 2) num = 2;
+//チョキ
+    if (btn == 1 && r == 0) num = 2;
+    if (btn == 1 && r == 2) num = 1;
+//パー
+    if (btn == 2 && r == 0) num = 1;
+    if (btn == 2 && r == 1) num = 2;
+//表示
+    document.getElementById("message").innerHTML = msg[num];
+}
+
+function handreset() {
+    document.janken.elements[0].disabled = false;
+    document.janken.elements[1].disabled = false;
+    document.janken.elements[2].disabled = false;
+    document.janken.elements[3].disabled = true;
+    document.getElementById("message").innerHTML = msg[0];
+    getahand();
+}
+
+function getahand() {
+    document.getElementById("ahand").innerHTML = "<img src='" + hand[count] + "'>"; 
+    document.getElementById("bhand").innerHTML = "<img src='" + hand[count] + "'>";
+    count++;
+    if (count > 2) count = 0;
+    timer = setTimeout("getahand()",500);
+}
+
+</script>
+
+</body>
+</html>
